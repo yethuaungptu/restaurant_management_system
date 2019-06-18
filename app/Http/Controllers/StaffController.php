@@ -70,9 +70,9 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Staff $staff)
     {
-        //
+        return view('staffs.edit',compact('staff'));
     }
 
     /**
@@ -82,27 +82,25 @@ class StaffController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Staff $staff)
     {
-        //
+        $staff->update($this->validateRequest());
+
+        return redirect('staffs/')->with('success', 'Staffs updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+
+    public function destroy(Staff $staff)
     {
-        //
+        $staff->delete();
+
+        return redirect('staffs')->with('success', 'Staffs deleted!');
     }
     private function validateRequest()
     {
         return request()->validate([
             'name' => 'required|min:3',
             'email' => 'required|email',
-            'password' => 'required|string|min:8',
         ]);
     }
 }

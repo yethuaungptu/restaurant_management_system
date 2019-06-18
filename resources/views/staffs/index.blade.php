@@ -12,7 +12,7 @@
             @endif
         </div>
         <div class="col-sm-12">
-            <h1 class="display-3">Menus</h1>
+            <h1 class="display-3">Staff</h1>
             <div>
                 <a style="margin: 19px;" href="{{ route('staffs.create')}}" class="btn btn-primary">New Staff</a>
             </div>

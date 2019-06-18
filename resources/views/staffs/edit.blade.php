@@ -17,9 +17,7 @@
 
                 @include('staffs.form')
 
-
-                <button type="submit" class="btn btn-primary">Update Menu</button>
-
+                <button type="submit" class="btn btn-primary">Update Staff</button>
 
             </form>
         </div>

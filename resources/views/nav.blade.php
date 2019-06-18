@@ -15,6 +15,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url('/menus') }}">{{ __('Menus') }}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url('/staffs') }}">{{ __('Staffs') }}</a>
+                    </li>
                 @endguest
 
             </ul>

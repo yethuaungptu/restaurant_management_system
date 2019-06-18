@@ -16,10 +16,4 @@
     </div>
 </div>
 
-<div class="form-group">
-    <label for="password">Password</label>
-    <input type="password" name="password" value="{{old('password') ?? $staff->password}}" class="form-control">
-    <div>
-        {{ $errors->first('password') }}
-    </div>
-</div>
+
