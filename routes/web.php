@@ -15,6 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/staff/login', 'WaiterController@login');
+
+Route::post('/staff/login', 'WaiterController@check');
+Route::post('/staff/logout', 'WaiterController@logout');
+
 Auth::routes();
 
 Route::resource('menus','MenuController')->middleware('auth');

@@ -72,6 +72,8 @@
                     @else
                         <a href="{{ route('login') }}">Login</a>
 
+                        <a href="{{ url('/staff/login') }}">Login Waiter</a>
+
                         @if (Route::has('register'))
                             <a href="{{ route('register') }}">Register</a>
                         @endif
