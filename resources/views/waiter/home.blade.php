@@ -192,6 +192,13 @@
                                                     </h4>
                                                 </div>
                                             </li>
+                                            <li>
+                                                <div class="top-cart-inner check-out">
+                                                    <h4 class="text-uppercase">
+                                                        <a href="{{ url('/staff/home') }}">Go Menu</a>
+                                                    </h4>
+                                                </div>
+                                            </li>
                                             @endif
                                         </ul>
                                     </div>

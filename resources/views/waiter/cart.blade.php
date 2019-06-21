@@ -187,9 +187,16 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="top-cart-inner view-cart">a
+                                                <div class="top-cart-inner view-cart">
                                                     <h4 class="text-uppercase">
-                                                        <a href="#">View cart</a>
+                                                        <a href="{{ url('/staff/cart') }}">View cart</a>
+                                                    </h4>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <div class="top-cart-inner check-out">
+                                                    <h4 class="text-uppercase">
+                                                        <a href="{{ url('/staff/home') }}">Go Menu</a>
                                                     </h4>
                                                 </div>
                                             </li>
