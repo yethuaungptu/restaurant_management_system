@@ -18,7 +18,11 @@ Route::get('/', function () {
 Route::get('/staff/login', 'WaiterController@login');
 
 Route::post('/staff/login', 'WaiterController@check');
-Route::post('/staff/logout', 'WaiterController@logout');
+Route::get('/staff/home', 'WaiterController@home');
+Route::get('/staff/cart/{id}', 'WaiterController@cart');
+Route::get('/staff/removeI/{id}', 'WaiterController@remove');
+Route::get('/staff/logout', 'WaiterController@logout');
+Route::get('/staff/cart', 'WaiterController@cartview');
 
 Auth::routes();
 
