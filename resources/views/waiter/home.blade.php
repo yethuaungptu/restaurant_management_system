@@ -58,7 +58,7 @@
                                 <li>
                                     <a href="#">
                                         <i class="zmdi zmdi-account"></i>
-                                        {{ request()->session()->get('staff_key') }}
+                                        {{ request()->session()->get('staff_key')[0][0] }}
                                     </a>
                                 </li>
                                 <li>
@@ -306,7 +306,7 @@
                                             </div>
                                         </div>
                                         @endforeach
-                                        <h1>{{ \Illuminate\Support\Facades\Cookie::get('test') }}</h1>
+
                                         <!-- product-item end -->
                                     </div>
                                 </div>
@@ -351,17 +351,12 @@
                                     </div>
                                 </div>
                             </div>
+
                             <!-- Tab Content end -->
                             <!-- shop-pagination start -->
-{{--                            <ul class="shop-pagination box-shadow text-center ptblr-10-30">--}}
-{{--                                <li><a href="#"><i class="zmdi zmdi-chevron-left"></i></a></li>--}}
-{{--                                <li><a href="#">01</a></li>--}}
-{{--                                <li><a href="#">02</a></li>--}}
-{{--                                <li><a href="#">03</a></li>--}}
-{{--                                <li><a href="#">...</a></li>--}}
-{{--                                <li><a href="#">05</a></li>--}}
-{{--                                <li class="active"><a href="#"><i class="zmdi zmdi-chevron-right"></i></a></li>--}}
-{{--                            </ul>--}}
+                            <ul class="shop-pagination box-shadow text-center ptblr-10-30">
+                                {{ $menus->links() }}
+                            </ul>
                             <!-- shop-pagination end -->
                         </div>
                     </div>

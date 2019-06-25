@@ -4,10 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Staff extends Model
+class Order extends Model
 {
     protected $guarded = [];
-    public function orders(){
-        return $this->hasMany(Order::class);
+    public function staff(){
+        return $this->belongsTo(Staff::class);
     }
 }

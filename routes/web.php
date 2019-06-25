@@ -23,6 +23,9 @@ Route::get('/staff/cart/{id}', 'WaiterController@cart');
 Route::get('/staff/removeI/{id}', 'WaiterController@remove');
 Route::get('/staff/logout', 'WaiterController@logout');
 Route::get('/staff/cart', 'WaiterController@cartview');
+Route::get('/staff/order', 'WaiterController@order');
+Route::post('/staff/checkout', 'WaiterController@checkout');
+Route::get('/staff/done', 'WaiterController@done');
 
 Auth::routes();
 

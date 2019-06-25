@@ -13,10 +13,11 @@
 
     <!-- All CSS Files -->
     <!-- Bootstrap fremwork main css -->
-    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" media="all">
+    <link rel="stylesheet" href="{{ asset('css/sweetalert.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/print.min.css') }}" >
     <!-- Nivo-slider css -->
-    <link rel="stylesheet" href="{{ asset('lib/css/nivo-slider.css') }}">
-    <!-- This core.css') }} file contents all plugings css file. -->
+    <link rel="stylesheet" href="{{ asset('lib/css/nivo-slider.css') }}">    <!-- This core.css') }} file contents all plugings css file. -->
     <link rel="stylesheet" href="{{ asset('css/core.css') }}">
     <!-- Theme shortcodes/elements style -->
     <link rel="stylesheet" href="{{ asset('css/shortcode/shortcodes.css') }}">
@@ -31,6 +32,9 @@
 
     <!-- Modernizr JS -->
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/print.min.js') }}"></script>
+
 </head>
 
 <body>
@@ -58,7 +62,7 @@
                                 <li>
                                     <a href="#">
                                         <i class="zmdi zmdi-account"></i>
-                                        {{ request()->session()->get('staff_key') }}
+                                        {{ request()->session()->get('staff_key')[0][0] }}
                                     </a>
                                 </li>
                                 <li>
@@ -149,17 +153,11 @@
                                                     <!-- single-cart -->
                                                     @if( request()->session()->get('cart') )
                                                         @foreach(request()->session()->get('cart') as $i=>$id)
-                                                            {{ $i }}
                                                             <div class="single-cart clearfix">
                                                                 <div class="cart-img f-left">
                                                                     <a href="#">
                                                                         <img src="{{ asset('img/cart/1.jpg') }}" alt="Cart Product" />
                                                                     </a>
-                                                                    <div class="del-icon">
-                                                                        <a href="{{ url('/staff/removeI/'.$i) }}">
-                                                                            <i class="zmdi zmdi-close"></i>
-                                                                        </a>
-                                                                    </div>
                                                                 </div>
                                                                 <div class="cart-info f-left">
                                                                     <h6 class="text-capitalize">
@@ -200,8 +198,16 @@
                                                     </h4>
                                                 </div>
                                             </li>
-
+                                            @else
+                                                <li>
+                                                    <div class="top-cart-inner check-out">
+                                                        <h4 class="text-uppercase">
+                                                            <a href="{{ url('/staff/home') }}">Go Menu</a>
+                                                        </h4>
+                                                    </div>
+                                                </li>
                                             @endif
+
                                         </ul>
                                     </div>
                                 </div>
@@ -248,21 +254,21 @@
                     <div class="col-md-2 col-sm-12">
                         <ul class="cart-tab">
                             <li>
-                                <a class="active" href="#shopping-cart" data-toggle="tab">
+                                <a class="active" id="t1" href="" data-toggle="tab">
                                     <span>01</span>
                                     Shopping cart
                                 </a>
                             </li>
                             <li>
-                                <a href="#wishlist" data-toggle="tab">
+                                <a href="#wishlist" id="t2" data-toggle="tab">
                                     <span>02</span>
                                     Ordered List
                                 </a>
                             </li>
                             <li>
-                                <a href="#order-complete" data-toggle="tab">
+                                <a href="#order-complete" id="t3" data-toggle="tab">
                                     <span>03</span>
-                                    Order complete
+                                    Checkout complete
                                 </a>
                             </li>
                         </ul>
@@ -273,7 +279,7 @@
                             <!-- shopping-cart start -->
                             <div class="tab-pane active" id="shopping-cart">
                                 <div class="shopping-cart-content">
-                                    <form action="#">
+                                    <form action="{{ url('/staff/order') }}" method="GET">
                                         <div class="table-content table-responsive mb-50">
                                             <table class="text-center">
                                                 <thead>
@@ -287,8 +293,10 @@
                                                 </thead>
                                                 <tbody>
                                                 <!-- tr -->
-                                                @if( request()->session()->get('cart') )
-                                                    @foreach(request()->session()->get('cart') as $i=>$id)
+                                                @if( session('cart') )
+                                                    @for($i = 0; $i< count(session('cart'));$i++)
+                                                        {{ array_keys(session('cart'))[$i] }}
+                                                        <input type="hidden" name="id{{array_values(session('cart'))[$i]}}" value="{{ array_values(session('cart'))[$i] }}">
                                                         <tr>
                                                             <td class="product-thumbnail">
                                                                 <div class="pro-thumbnail-img">
@@ -296,23 +304,25 @@
                                                                 </div>
                                                                 <div class="pro-thumbnail-info text-left">
                                                                     <h6 class="product-title-2">
-                                                                        <a href="#">{{\App\Menu::find($id)->name}}</a>
+                                                                        <a href="#">{{\App\Menu::find(array_values(session('cart'))[$i])->name}}</a>
                                                                     </h6>
-                                                                    <p>{{\App\Menu::find($id)->category->name}}</p>
+                                                                    <p>{{\App\Menu::find(array_values(session('cart'))[$i])->category->name}}</p>
                                                                 </div>
                                                             </td>
-                                                            <td class="product-price" id="pr{{$id}}">{{\App\Menu::find($id)->price}}</td>
+                                                            <td class="product-price" id="pr{{array_values(session('cart'))[$i]}}">{{\App\Menu::find(array_values(session('cart'))[$i])->price}}</td>
                                                             <td class="product-quantity">
                                                                 <div class="cart-plus-minus f-left">
-                                                                    <input type="text" value="1" id="{{ $id }}" name="qtybutton" class="cart-plus-minus-box">
+                                                                    <input type="text" value="1" id="{{ array_values(session('cart'))[$i] }}" name="qtybutton" class="cart-plus-minus-box">
+                                                                    <input type="hidden" name="count{{ array_values(session('cart'))[$i] }}" id="count{{ array_values(session('cart'))[$i] }}" value="1">
                                                                 </div>
                                                             </td>
-                                                            <td class="product-subtotal" ><span id="val{{ $id }}" class="ch{{ $i }}">{{\App\Menu::find($id)->price}}</span></td>
+                                                            <td class="product-subtotal" ><span id="val{{ array_values(session('cart'))[$i] }}" class="ch{{ $i }}">{{\App\Menu::find(array_values(session('cart'))[$i])->price}}</span></td>
+
                                                             <td class="product-remove">
-                                                                <a href="{{ url('/staff/removeI/'.$i) }}"><i class="zmdi zmdi-close"></i></a>
+                                                                <a href="{{ url('/staff/removeI/'.array_keys(session('cart'))[$i]) }}"><i class="zmdi zmdi-close"></i></a>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                        @endfor
                                                 @endif
                                                 <!-- tr -->
                                                 </tbody>
@@ -337,14 +347,15 @@
                                                         </tr>
                                                         <tr>
                                                             <td class="order-total">Order Total</td>
-                                                            <td class="order-total-price" id="total">$170.00</td>
+                                                            <input type="hidden" id="billtol" name="billtol" value="0" >
+                                                            <td class="order-total-price" id="total">0</td>
                                                         </tr>
                                                     </table>
 
                                                 </div>
                                                 <div class="col-md-10"></div>
                                                 <div class="col-md-2 align-items-end">
-                                                    <button class="submit-btn-1 black-bg btn-hover-2">Order Menu</button>
+                                                    <button class="submit-btn-1 black-bg btn-hover-2" >Order Menu</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -356,20 +367,23 @@
                             <!-- wishlist start -->
                             <div class="tab-pane" id="wishlist">
                                 <div class="wishlist-content">
-                                    <form action="#">
+                                    <form action="{{ url('staff/checkout') }}" name="frm" method="POST">
+                                        @csrf
+                                        <input type="hidden" id="pass" value="{{ request()->session()->get('staff_key')[0][1] }}">
                                         <div class="table-content table-responsive mb-50">
                                             <table class="text-center">
                                                 <thead>
                                                 <tr>
-                                                    <th class="product-thumbnail">product</th>
-                                                    <th class="product-price">price</th>
+                                                    <th class="product-thumbnail">Product</th>
+                                                    <th class="product-price">Price</th>
                                                     <th class="product-stock">Stock status</th>
-                                                    <th class="product-add-cart">add to cart</th>
-                                                    <th class="product-remove">remove</th>
+                                                    <th class="product-remove">Count</th>
+                                                    <th class="product-add-cart">Total</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
                                                 <!-- tr -->
+                                            @foreach(request()->session()->get('cart') as $i=>$id)
                                                 <tr>
                                                     <td class="product-thumbnail">
                                                         <div class="pro-thumbnail-img">
@@ -377,230 +391,56 @@
                                                         </div>
                                                         <div class="pro-thumbnail-info text-left">
                                                             <h6 class="product-title-2">
-                                                                <a href="#">dummy product name</a>
+                                                                <a href="#">{{\App\Menu::find($id)->name}}</a>
                                                             </h6>
-                                                            <p>Brand: Brand Name</p>
-                                                            <p>Model: Grand s2</p>
-                                                            <p> Color: Black, White</p>
+                                                            <p>{{\App\Menu::find($id)->category->name}}</p>
                                                         </div>
                                                     </td>
-                                                    <td class="product-price">$560.00</td>
+                                                    <td class="product-price">{{\App\Menu::find($id)->price}}</td>
                                                     <td class="product-stock text-uppercase">in stoct</td>
-                                                    <td class="product-add-cart">
-                                                        <a href="#" title="Add To Cart">
-                                                            <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                        </a>
-                                                    </td>
                                                     <td class="product-remove">
-                                                        <a href="#"><i class="zmdi zmdi-close"></i></a>
+                                                        <input type="text" value="{{ request()->session()->get('order')['count'.$id] }}" name="qty" class="cart-plus-minus-box">
+                                                    </td>
+                                                    <td class="product-add-cart">
+                                                        <span id="tol{{ $id }}" class="ch{{ $i }}">{{request()->session()->get('order')['count'.$id] * \App\Menu::find($id)->price}}</span>
                                                     </td>
                                                 </tr>
-                                                <!-- tr -->
-                                                <tr>
-                                                    <td class="product-thumbnail">
-                                                        <div class="pro-thumbnail-img">
-                                                            <img src="{{ asset('img/cart/2.jpg') }}" alt="">
-                                                        </div>
-                                                        <div class="pro-thumbnail-info text-left">
-                                                            <h6 class="product-title-2">
-                                                                <a href="#">dummy product name</a>
-                                                            </h6>
-                                                            <p>Brand: Brand Name</p>
-                                                            <p>Model: Grand s2</p>
-                                                            <p> Color: Black, White</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price">$560.00</td>
-                                                    <td class="product-stock text-uppercase">in stoct</td>
-                                                    <td class="product-add-cart">
-                                                        <a href="#" title="Add To Cart">
-                                                            <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                        </a>
-                                                    </td>
-                                                    <td class="product-remove">
-                                                        <a href="#"><i class="zmdi zmdi-close"></i></a>
-                                                    </td>
-                                                </tr>
-                                                <!-- tr -->
-                                                <tr>
-                                                    <td class="product-thumbnail">
-                                                        <div class="pro-thumbnail-img">
-                                                            <img src="{{ asset('img/cart/3.jpg') }}" alt="">
-                                                        </div>
-                                                        <div class="pro-thumbnail-info text-left">
-                                                            <h6 class="product-title-2">
-                                                                <a href="#">dummy product name</a>
-                                                            </h6>
-                                                            <p>Brand: Brand Name</p>
-                                                            <p>Model: Grand s2</p>
-                                                            <p> Color: Black, White</p>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price">$560.00</td>
-                                                    <td class="product-stock text-uppercase">in stoct</td>
-                                                    <td class="product-add-cart">
-                                                        <a href="#" title="Add To Cart">
-                                                            <i class="zmdi zmdi-shopping-cart-plus"></i>
-                                                        </a>
-                                                    </td>
-                                                    <td class="product-remove">
-                                                        <a href="#"><i class="zmdi zmdi-close"></i></a>
-                                                    </td>
-                                                </tr>
+                                            @endforeach
                                                 </tbody>
+                                                <tfoot>
+                                                <th class="text-center text-info h3" colspan="4">Total Bill</th>
+                                                <th class="text-center text-blue h3" >{{ request()->session()->get('order')['billtol'] }}</th>
+                                                </tfoot>
                                             </table>
+                                        </div>
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2 align-items-end">
+                                            <button type="button" class="submit-btn-1 black-bg btn-hover-2" onclick="checkAuth()">Check Out</button>
                                         </div>
                                     </form>
                                 </div>
                             </div>
                             <!-- wishlist end -->
-                            <!-- checkout start -->
-                            <div class="tab-pane" id="checkout">
-                                <div class="checkout-content box-shadow p-30">
-                                    <form action="#">
-                                        <div class="row">
-                                            <!-- billing details -->
-                                            <div class="col-md-6">
-                                                <div class="billing-details pr-10">
-                                                    <h6 class="widget-title border-left mb-20">billing details</h6>
-                                                    <input type="text"  placeholder="Your Name Here...">
-                                                    <input type="text"  placeholder="Email address here...">
-                                                    <input type="text"  placeholder="Phone here...">
-                                                    <input type="text"  placeholder="Company neme here...">
-                                                    <select class="custom-select">
-                                                        <option value="defalt">country</option>
-                                                        <option value="c-1">Australia</option>
-                                                        <option value="c-2">Bangladesh</option>
-                                                        <option value="c-3">Unitd States</option>
-                                                        <option value="c-4">Unitd Kingdom</option>
-                                                    </select>
-                                                    <select class="custom-select">
-                                                        <option value="defalt">State</option>
-                                                        <option value="c-1">Melbourne</option>
-                                                        <option value="c-2">Dhaka</option>
-                                                        <option value="c-3">New York</option>
-                                                        <option value="c-4">London</option>
-                                                    </select>
-                                                    <select class="custom-select">
-                                                        <option value="defalt">Town/City</option>
-                                                        <option value="c-1">Victoria</option>
-                                                        <option value="c-2">Chittagong</option>
-                                                        <option value="c-3">Boston</option>
-                                                        <option value="c-4">Cambridge</option>
-                                                    </select>
-                                                    <textarea class="custom-textarea" placeholder="Your address here..."></textarea>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <!-- our order -->
-                                                <div class="payment-details pl-10 mb-50">
-                                                    <h6 class="widget-title border-left mb-20">our order</h6>
-                                                    <table>
-                                                        <tr>
-                                                            <td class="td-title-1">Dummy Product Name x 2</td>
-                                                            <td class="td-title-2">$1855.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Dummy Product Name</td>
-                                                            <td class="td-title-2">$555.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Cart Subtotal</td>
-                                                            <td class="td-title-2">$2410.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Shipping and Handing</td>
-                                                            <td class="td-title-2">$15.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="td-title-1">Vat</td>
-                                                            <td class="td-title-2">$00.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td class="order-total">Order Total</td>
-                                                            <td class="order-total-price">$2425.00</td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                                <!-- payment-method -->
-                                                <div class="payment-method">
-                                                    <h6 class="widget-title border-left mb-20">payment method</h6>
-                                                    <div id="accordion">
-                                                        <div class="panel">
-                                                            <h4 class="payment-title box-shadow">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#bank-transfer" >
-                                                                    direct bank transfer
-                                                                </a>
-                                                            </h4>
-                                                            <div id="bank-transfer" class="panel-collapse collapse in" >
-                                                                <div class="payment-content">
-                                                                    <p>Lorem Ipsum is simply in dummy text of the printing and type setting industry. Lorem Ipsum has been.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="panel">
-                                                            <h4 class="payment-title box-shadow">
-                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo">
-                                                                    cheque payment
-                                                                </a>
-                                                            </h4>
-                                                            <div id="collapseTwo" class="panel-collapse collapse">
-                                                                <div class="payment-content">
-                                                                    <p>Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="panel">
-                                                            <h4 class="payment-title box-shadow">
-                                                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree" >
-                                                                    paypal
-                                                                </a>
-                                                            </h4>
-                                                            <div id="collapseThree" class="panel-collapse collapse" >
-                                                                <div class="payment-content">
-                                                                    <p>Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
-                                                                    <ul class="payent-type mt-10">
-                                                                        <li><a href="#"><img src="{{ asset('img/payment/1.png') }}" alt=""></a></li>
-                                                                        <li><a href="#"><img src="{{ asset('img/payment/2.png') }}" alt=""></a></li>
-                                                                        <li><a href="#"><img src="{{ asset('img/payment/3.png') }}" alt=""></a></li>
-                                                                        <li><a href="#"><img src="{{ asset('img/payment/4.png') }}" alt=""></a></li>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- payment-method end -->
-                                                <button class="submit-btn-1 mt-30 btn-hover-1" type="submit">place order</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            <!-- checkout end -->
                             <!-- order-complete start -->
                             <div class="tab-pane" id="order-complete">
-                                <div class="order-complete-content box-shadow">
+                                @if(session('complete'))
+                                <div class="order-complete-content box-shadow" id="printArea">
                                     <div class="thank-you p-30 text-center">
-                                        <h6 class="text-black-5 mb-0">Thank you. Your order has been received.</h6>
+                                        <h6 class="text-black-5 mb-0">Thank you. Your order has been Checkout Completed.</h6>
                                     </div>
                                     <div class="order-info p-30 mb-10">
                                         <ul class="order-info-list">
                                             <li>
-                                                <h6>order no</h6>
-                                                <p>m 2653257</p>
+                                                <h6>Order no</h6>
+                                                <p>{{ session('complete')[0]->id }}</p>
                                             </li>
                                             <li>
-                                                <h6>order no</h6>
-                                                <p>m 2653257</p>
+                                                <h6>Sale By</h6>
+                                                <p>{{ session('complete')[0]->staff->name }}</p>
                                             </li>
                                             <li>
-                                                <h6>order no</h6>
-                                                <p>m 2653257</p>
-                                            </li>
-                                            <li>
-                                                <h6>order no</h6>
-                                                <p>m 2653257</p>
+                                                <h6>Order Date</h6>
+                                                <p>{{ session('complete')[0]->created_at }}</p>
                                             </li>
                                         </ul>
                                     </div>
@@ -608,74 +448,85 @@
                                         <!-- our order -->
                                         <div class="col-md-6">
                                             <div class="payment-details p-30">
-                                                <h6 class="widget-title border-left mb-20">our order</h6>
+                                                <h6 class="widget-title border-left mb-20">your order</h6>
                                                 <table>
-                                                    <tr>
-                                                        <td class="td-title-1">Dummy Product Name x 2</td>
-                                                        <td class="td-title-2">$1855.00</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td class="td-title-1">Dummy Product Name</td>
-                                                        <td class="td-title-2">$555.00</td>
-                                                    </tr>
+                                                    @foreach(session('cart') as $i=>$id)
+                                                        <tr>
+                                                            <td class="td-title-1">{{\App\Menu::find($id)->name}} x {{ session('order')['count'.$id] }}</td>
+                                                            <td class="td-title-2">{{session('order')['count'.$id] * \App\Menu::find($id)->price}} Ks</td>
+                                                        </tr>
+                                                    @endforeach
                                                     <tr>
                                                         <td class="td-title-1">Cart Subtotal</td>
-                                                        <td class="td-title-2">$2410.00</td>
+                                                        <td class="td-title-2">{{ session('order')['billtol'] }} Ks</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="td-title-1">Shipping and Handing</td>
-                                                        <td class="td-title-2">$15.00</td>
+                                                        <td class="td-title-1">Table Charged</td>
+                                                        <td class="td-title-2">0 Ks</td>
                                                     </tr>
                                                     <tr>
-                                                        <td class="td-title-1">Vat</td>
-                                                        <td class="td-title-2">$00.00</td>
+                                                        <td class="td-title-1">Tax</td>
+                                                        <td class="td-title-2">0 Ks</td>
                                                     </tr>
                                                     <tr>
                                                         <td class="order-total">Order Total</td>
-                                                        <td class="order-total-price">$2425.00</td>
+                                                        <td class="order-total-price">{{ session('order')['billtol'] }} Ks</td>
                                                     </tr>
                                                 </table>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="bill-details p-30">
-                                                <h6 class="widget-title border-left mb-20">billing details</h6>
+                                                <h6 class="widget-title border-left mb-20">Restaurant details</h6>
                                                 <ul class="bill-address">
                                                     <li>
-                                                        <span>Address:</span>
-                                                        28 Green Tower, Street Name, New York City, USA
+                                                        <span>Name : </span>
+                                                        Be Happy
                                                     </li>
                                                     <li>
-                                                        <span>email:</span>
-                                                        info@companyname.com
+                                                        <span>Address : </span>
+                                                        No.7, Pyaw Tar Mue Street, Pyay, Bago
                                                     </li>
                                                     <li>
-                                                        <span>phone : </span>
+                                                        <span>Phone : </span>
                                                         (+880) 19453 821758
                                                     </li>
                                                 </ul>
                                             </div>
                                             <div class="bill-details pl-30">
-                                                <h6 class="widget-title border-left mb-20">billing details</h6>
+                                                <h6 class="widget-title border-left mb-20">our social link</h6>
                                                 <ul class="bill-address">
                                                     <li>
-                                                        <span>Address:</span>
-                                                        28 Green Tower, Street Name, New York City, USA
+                                                        <span>Facebook : </span>
+                                                        https://www.facebook.com
                                                     </li>
                                                     <li>
                                                         <span>email:</span>
-                                                        info@companyname.com
+                                                        behappy@companyname.com
                                                     </li>
                                                     <li>
-                                                        <span>phone : </span>
-                                                        (+880) 19453 821758
+                                                        <span>Instagram : </span>
+                                                        https://www.instagram.com/?hl=en
                                                     </li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="thank-you p-30 text-center">
+                                    <div class="row">
+                                        <div class="col-md-6 align-items-start">
+                                            <button type="button" class="submit-btn-1 black-bg btn-hover-2" onclick="order_com()">Print</button>
+                                        </div>
+                                        <div class="col-md-6 align-items-end">
+                                            <button type="button" class="submit-btn-1 black-bg btn-hover-2" onclick="order_clear()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                    @endif
                             </div>
+
+
                             <!-- order-complete end -->
                         </div>
                     </div>
@@ -685,90 +536,7 @@
         <!-- SHOP SECTION END -->
 
     </section>
-    <!-- End page content -->
 
-    <!-- START FOOTER AREA -->
-
-    <!-- END FOOTER AREA -->
-
-    <!-- START QUICKVIEW PRODUCT -->
-{{--    <div id="quickview-wrapper">--}}
-{{--        <!-- Modal -->--}}
-{{--        <div class="modal fade" id="productModal" tabindex="-1" role="dialog">--}}
-{{--            <div class="modal-dialog" role="document">--}}
-{{--                <div class="modal-content">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <div class="modal-product clearfix">--}}
-{{--                            <div class="product-images">--}}
-{{--                                <div class="main-image images">--}}
-{{--                                    <img alt="" src="{{ asset('img/product/quickview.jpg') }}') }}">--}}
-{{--                                </div>--}}
-{{--                            </div><!-- .product-images -->--}}
-
-{{--                            <div class="product-info">--}}
-{{--                                <h1 id="mName">{{$menu ->id}}</h1>--}}
-{{--                                <div class="price-box-3">--}}
-{{--                                    <div class="s-price-box">--}}
-{{--                                        <span class="new-price">£160.00</span>--}}
-{{--                                        <span class="old-price">£190.00</span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <a href="single-product-left-sidebar.html" class="see-all">See all features</a>--}}
-{{--                                <div class="quick-add-to-cart">--}}
-{{--                                    <form method="post" class="cart">--}}
-{{--                                        <div class="numbers-row">--}}
-{{--                                            <input type="number" id="french-hens" value="3">--}}
-{{--                                        </div>--}}
-{{--                                        <button class="single_add_to_cart_button" type="submit">Add to cart</button>--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                                <div class="quick-desc">--}}
-{{--                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero.--}}
-{{--                                </div>--}}
-{{--                                <div class="social-sharing">--}}
-{{--                                    <div class="widget widget_socialsharing_widget">--}}
-{{--                                        <h3 class="widget-title-modal">Share this product</h3>--}}
-{{--                                        <ul class="social-icons clearfix">--}}
-{{--                                            <li>--}}
-{{--                                                <a class="facebook" href="#" target="_blank" title="Facebook">--}}
-{{--                                                    <i class="zmdi zmdi-facebook"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="google-plus" href="#" target="_blank" title="Google +">--}}
-{{--                                                    <i class="zmdi zmdi-google-plus"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="twitter" href="#" target="_blank" title="Twitter">--}}
-{{--                                                    <i class="zmdi zmdi-twitter"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="pinterest" href="#" target="_blank" title="Pinterest">--}}
-{{--                                                    <i class="zmdi zmdi-pinterest"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="rss" href="#" target="_blank" title="RSS">--}}
-{{--                                                    <i class="zmdi zmdi-rss"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div><!-- .product-info -->--}}
-{{--                        </div><!-- .modal-product -->--}}
-{{--                    </div><!-- .modal-body -->--}}
-{{--                </div><!-- .modal-content -->--}}
-{{--            </div><!-- .modal-dialog -->--}}
-{{--        </div>--}}
-{{--        <!-- END Modal -->--}}
-{{--    </div>--}}
-<!-- END QUICKVIEW PRODUCT -->
 </div>
 <!-- Body main wrapper end -->
 
@@ -786,27 +554,83 @@
 <!-- Main js file that contents all jQuery plugins activation. -->
 <script src="{{ asset('js/main.js') }}"></script>
 
+
 </body>
 
 <script>
+    tolsum();
     function aa(id,val) {
         let price = $('#pr'+id+'').html()
         let tol = Number(price)*val;
         $('#val'+id+'').html(tol);
+        $('#tol'+id+'').html(tol);
+        // $('#count'+id+'').val(val);
         tolsum()
-
+        $('#qty'+id+'').val(val);
     }
     function tolsum() {
+
         let alltol = 0;
+
         for (let i =0 ; i< Number($('#countC').html());i++){
-            console.log($('.ch'+i+'').html())
+            console.log('call', i);
+            console.log($('.ch'+i+'').html(),$('.ch'+i+''))
             alltol += Number($('.ch'+i+'').html());
         }
+        // alert(alltol);
         $('#carttol').html(alltol);
         $('#total').html(alltol);
+        $('#billtol').val(alltol);
     }
-    tolsum();
+
+    function checkAuth() {
+        swal({
+            title: "Check Staff Password",
+            text: "Please Enter Account Password",
+            type: "input",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            inputPlaceholder: "Write something"
+        }, function (inputValue) {
+            if (inputValue === false) return false;
+            if ( inputValue != $('#pass').val()) {
+                swal.showInputError("Please Enter Staff Password");
+                return false
+            }else {
+                swal("Nice!", "Checkout Success " , "success");
+                frm.submit();
+            }
+
+        });
+    }
+
+    function order_com() {
+        printJS({
+            printable: 'printArea',
+            type: 'html',
+            targetStyles: ['*']
+        })
+    }
+    function order_clear() {
+        location.href = '/staff/done';
+    }
+
+
+
 </script>
-
-
+@if(session('order'))
+    <script>
+        $('#t1').removeClass('active');
+        $('#t2').addClass('active');
+        $('.cart-tab a[href="#wishlist"]').tab('show');
+    </script>
+@endif
+@if(session('complete'))
+    <script>
+        $('#t2').removeClass('active');
+        $('#t2').removeAttr('href');
+        $('#t3').addClass('active');
+        $('.cart-tab a[href="#order-complete"]').tab('show');
+    </script>
+@endif
 </html>
