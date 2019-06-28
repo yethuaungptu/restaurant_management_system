@@ -144,7 +144,7 @@
                     <div class="big-box">
                         <div class="member-info">
                             <img src="img/team/admin.png" alt="admin" class="img-circle">
-                            <span class="member-name">{{ \App\Order::groupBy('staff_id')->get()[0]->staff->name}}</span>
+{{--                            <span class="member-name">{{ \App\Order::groupBy('staff_id')->get()[0]->staff->name}}</span>--}}
                             <span class="member-role red pull-right">Admin</span>
                         </div>
                         <div class="member-info">
