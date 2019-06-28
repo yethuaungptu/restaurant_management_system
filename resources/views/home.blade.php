@@ -110,7 +110,7 @@
                             <div class="content-box biggest-box green-bg">
                                 <div class="pull-left">
                                     <span class="block">Top Menu</span>
-                                    <h1 class="text-uppercase zero-m">{{ (\App\Menu::all()->get())? \App\Menu::orderBy('count','desc')->first()->name: 'No User'}}</h1>
+                                    <h1 class="text-uppercase zero-m">{{ (\App\Menu::all())? \App\Menu::orderBy('count','desc')->first()->name: 'No User'}}</h1>
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
