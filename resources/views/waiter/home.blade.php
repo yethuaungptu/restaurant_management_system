@@ -294,7 +294,7 @@
                                                     <ul class="action-button">
                                                         @if(in_array($menu->id, request()->session()->get('cart')??[]))
                                                         <li>
-                                                            <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
+                                                            <a href="/staff/cart" title="Compare"><i class="zmdi zmdi-open-in-new"></i></a>
                                                         </li>
                                                         @else
                                                         <li>
@@ -334,7 +334,7 @@
                                                         <ul class="action-button">
                                                             @if(in_array($menu->id, request()->session()->get('cart')??[]))
                                                                 <li>
-                                                                    <a href="#" title="Compare"><i class="zmdi zmdi-refresh"></i></a>
+                                                                    <a href="/staff/cart" title="Compare"><i class="zmdi zmdi-open-in-new"></i></a>
                                                                 </li>
                                                             @else
                                                                 <li>
