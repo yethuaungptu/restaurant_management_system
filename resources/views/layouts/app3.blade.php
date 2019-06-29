@@ -56,43 +56,7 @@
     <!--Welcome notification-->
 
 
-    <!--Members Sidebar-->
-    <div id="members-sidebar" class="members-sidebar">
-        <h4 class="pull-left zero-m">Members</h4>
-        <span class="close-members-sidebar"><i class="fa fa-remove pull-right"></i></span>
-        <div class="clearfix"></div>
-        <ul class="nav">
-            <li>
-                <div class="messages">
-                    <div class="member-info">
-                        <img src="img/team/admin.png" alt="admin" class="img-circle pull-left">
-                        <span class="member-name">Sash Ficus</span>
-                        <p class="members-message zero-m">Sushi time)))</p>
-                    </div>
-                    <div class="member-info">
-                        <img src="img/team/admin.png" alt="admin" class="img-circle pull-left">
-                        <span class="member-name">Sash Ficus</span>
-                        <p class="members-message zero-m">Working hard</p>
-                    </div>
-                </div>
-            </li>
-            <li class="members-group">Work</li>
-            <li><span class="status online"></span>Sash Ficus</li>
-            <li><span class="status online"></span>Sash Ficus</li>
-            <li><span class="status not-available"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li class="members-group">Partner</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-            <li><span class="status"></span>Sash Ficus</li>
-        </ul>
-    </div>
+
 </div>
 <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
@@ -149,7 +113,7 @@
         setTimeout(function () {
             // create the notification
             var notification = new NotificationFx({
-                message: '<span>Welcome back, John!</span>',
+                message: '<span>Welcome back, {{ Auth::user()->name }}</span>',
                 layout: 'attached',
                 effect: 'bouncyflip',
                 ttl: 4000,

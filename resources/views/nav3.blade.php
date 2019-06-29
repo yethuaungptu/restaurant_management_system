@@ -31,6 +31,11 @@
                             <li><a href="{{ url('/staffs/create') }}">Staff Add</a></li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="{{ url('/category') }}" aria-expanded="false">
+                            <i class="fa fa-tasks"></i>Category
+                        </a>
+                    </li>
 
                 </ul>
             </div>
@@ -52,11 +57,6 @@
     </li>
     <li class="pull-right">
         <ul class="nav navbar-right right-menu">
-            <li class="members-btn">
-                <a class="show-members">
-                    <i class="fa fa-group"></i>
-                </a>
-            </li>
             <li class="dropdown some-btn">
                 <a class="fullscreen">
                     <i class="mdi mdi-fullscreen"></i>

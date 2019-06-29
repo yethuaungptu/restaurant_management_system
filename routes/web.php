@@ -33,3 +33,10 @@ Route::resource('menus','MenuController')->middleware('auth');
 Route::resource('staffs','StaffController')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/category', 'CategoryController@index')->name('index');
+//Route::get('/category/create', 'CategoryController@create')->name('create');
+//Route::post('/category/store', 'CategoryController@store')->name('store');
+//Route::get('/category/edit', 'CategoryController@edit')->name('edit');
+//Route::post('/category/update', 'CategoryController@update')->name('update');
+//Route::post('/category/destroy', 'CategoryController@destroy')->name('destroy');
+Route::resource('category','CategoryController')->middleware('auth');

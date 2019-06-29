@@ -118,7 +118,7 @@
                     </div>
 
                     <div class="content-title big-box i-block">
-                        <h4 class="zero-m">Teammates</h4>
+                        <h4 class="zero-m">Top 5 Waiter </h4>
                         <div class="content-tools i-block pull-right">
                             <a class="repeat-btn">
                                 <i class="fa fa-repeat"></i>
@@ -134,29 +134,17 @@
                                 <i class="fa fa-times"></i>
                             </a>
                         </div>
-                        <div class="chart-legend">
-                            <span class="round red-bg"></span><span class="count">31</span>
-                            <span class="round blue-bg"></span><span class="count">65</span>
-                            <span class="round yellow-bg"></span><span class="count">120</span>
-                        </div>
+
                     </div>
                     <div class="clearfix"></div>
                     <div class="big-box">
+                        @for($i = 0; $i < \App\Order::groupBy('staff_id')->limit(5)->get()->count(); $i++)
                         <div class="member-info">
                             <img src="img/team/admin.png" alt="admin" class="img-circle">
-                            <span class="member-name">{{ (\App\Order::groupBy('staff_id')->get()[0])?\App\Order::groupBy('staff_id')->get()[0]->staff->name : 0}}</span>
-                            <span class="member-role red pull-right">Admin</span>
+                            <span class="member-name">{{ \App\Order::groupBy('staff_id')->selectRaw('count(*) as total, staff_id')->orderBy('total','desc')->get()[$i]->staff->name }}</span>
+                            <span class="member-role red pull-right">{{\App\Order::groupBy('staff_id')->selectRaw('count(*) as total, staff_id')->orderBy('total','desc')->get()[$i]->total}}</span>
                         </div>
-                        <div class="member-info">
-                            <img src="img/team/member.png" alt="member" class="img-circle">
-                            <span class="member-name">Vivien Hulk</span>
-                            <span class="member-role blue pull-right">Member</span>
-                        </div>
-                        <div class="member-info">
-                            <img src="img/team/editor.png" alt="editor" class="img-circle">
-                            <span class="member-name">Sash Ficus</span>
-                            <span class="member-role yellow pull-right">Editor</span>
-                        </div>
+                        @endfor
                     </div>
 
                 </div>
@@ -198,62 +186,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6">
-                <div class="content-box">
-                    <div class="content-title big-box i-block">
-                        <h4 class="zero-m">Site activity</h4>
-                        <div class="content-tools i-block pull-right">
-                            <a class="repeat-btn">
-                                <i class="fa fa-repeat"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-chevron-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Config option 1</a></li>
-                                <li><a href="#">Config option 2</a></li>
-                            </ul>
-                            <a class="close-btn">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                        <div class="line-chart-2-legend chart-legend"></div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="big-box">
-                        <div id="line-chart-2" class="flot-chart"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="content-box">
-                    <div class="content-title big-box i-block">
-                        <h4 class="zero-m">Line chart</h4>
-                        <div class="content-tools i-block pull-right">
-                            <a class="repeat-btn">
-                                <i class="fa fa-repeat"></i>
-                            </a>
-                            <a class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-chevron-down"></i>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Config option 1</a></li>
-                                <li><a href="#">Config option 2</a></li>
-                            </ul>
-                            <a class="close-btn">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                    <div class="big-box">
-                        <div id="line-chart-3" class="flot-chart"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-12">
                 <div class="content-box">
                     <div class="content-title big-box i-block">
                         <h4 class="zero-m">Bar Chart Example</h4>
@@ -274,14 +207,27 @@
                         </div>
                         <div class="chart-legend left">
                             <div class="pull-left item">
-                                <span id="new-visitor" class="text-lowercase block">New visitor</span><span class="position-title blue">12.349</span>
+                                <span id="new-visitor" class="text-lowercase block">Top sale per 10days</span><span class="position-title blue" >{{ max($data) }} Ks</span>
+                                <input type="hidden" id="data1" value="">
                             </div>
-                            <span id="new-orders" class="text-lowercase block">New orders</span><span class="position-title red">+75%</span>
+                            <span id="new-orders" class="text-lowercase block">Top Order count per 10menus</span><span class="position-title red">{{ \App\Menu::max('count') }}</span>
                         </div>
                     </div>
                     <div class="clearfix"></div>
-                    <div class="big-box">
-                        <div id="bar-chart" class="flot-chart"></div>
+                    @for($i=0; $i< 10; $i++)
+                        <input type="hidden" id="data{{$i+2}}" value="{{ $data[$i] }}">
+                    @endfor
+                    <input type="hidden" id="topO" value="{{ max($data) }}">
+                    @for($j=0; $j<10; $j++)
+                        @if($j<count($menuC))
+                            <input type="hidden" id="men{{ $j+2 }}" value="{{ ($menuC[$j])? $menuC[$j]['count']: 0 }}">
+                        @else
+                            <input type="hidden" id="men{{ $j+2 }}" value="0">
+                        @endif
+                    @endfor
+                    <input type="hidden" id="topM" value="{{ \App\Menu::max('count') }}">
+                    <div class="big-box ">
+                        <div id="bar-chart" class="flot-chart flot-big"></div>
                     </div>
                 </div>
 
