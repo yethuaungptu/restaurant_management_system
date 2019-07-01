@@ -620,7 +620,7 @@ $.smkAlert = function(options) {
         // Si se posiciona el cursor en la alerta se restablece el TimeOut
         $(obj).mouseenter(function(){
             clearTimeout(timer);
-        // Si sale el cursor de la alerta se ejecuta el método smkAlertHide
+        // Si sales el cursor de la alerta se ejecuta el método smkAlertHide
         }).mouseleave(function(){
             smkAlertHide();
         });

@@ -31,12 +31,16 @@ Auth::routes();
 
 Route::resource('menus','MenuController')->middleware('auth');
 Route::resource('staffs','StaffController')->middleware('auth');
+Route::resource('sales', 'SaleController')->middleware('auth');
 
 Route::get('/home', 'HomeController@index')->name('home');
-//Route::get('/category', 'CategoryController@index')->name('index');
-//Route::get('/category/create', 'CategoryController@create')->name('create');
+
+Route::resource('category','CategoryController')->middleware('auth');
+
+Route::get('/daily', 'HomeController@daily')->middleware('auth');
+Route::get('/monthly', 'HomeController@monthly')->middleware('auth');
+Route::get('/yearly', 'HomeController@yearly')->middleware('auth');
 //Route::post('/category/store', 'CategoryController@store')->name('store');
 //Route::get('/category/edit', 'CategoryController@edit')->name('edit');
 //Route::post('/category/update', 'CategoryController@update')->name('update');
 //Route::post('/category/destroy', 'CategoryController@destroy')->name('destroy');
-Route::resource('category','CategoryController')->middleware('auth');
