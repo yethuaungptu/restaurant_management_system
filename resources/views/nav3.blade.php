@@ -32,6 +32,18 @@
                         </ul>
                     </li>
                     <li>
+                        <a href="{{ url('/staffs') }}" aria-expanded="false">
+                            <i class="fa fa-cart-plus"></i>Sale
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="gn-submenu collapse" aria-expanded="false">
+                            <li><a href="{{ url('/sales') }}">Sale Management Daily</a></li>
+                            <li><a href="{{ url('/daily') }}">Daily Sale</a></li>
+                            <li><a href="{{ url('/monthly') }}">Monthly Sale</a></li>
+                            <li><a href="{{ url('/yearly') }}">Yearly Sale</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="{{ url('/category') }}" aria-expanded="false">
                             <i class="fa fa-tasks"></i>Category
                         </a>
