@@ -15,7 +15,7 @@
                         </ul>
                     </div><br />
                 @endif
-                <form method="post" action="{{ route('menus.store') }}">
+                <form method="post" action="{{ route('menus.store') }}" enctype="multipart/form-data">
 
                     @include('menus.form')
                     <button type="submit" class="btn btn-primary">Add Menu</button>

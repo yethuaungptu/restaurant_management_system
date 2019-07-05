@@ -49,7 +49,7 @@
                 <div class="row">
                     <div class="col-sm-6 hidden-xs">
                         <div class="call-us">
-                            <p class="mb-0 roboto">(+88) 01234-567890</p>
+                            <p class="mb-0 roboto">(+95) 01234-567890</p>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xs-12">
@@ -168,7 +168,7 @@
                                                                     <span>Cate <strong>:</strong></span>{{\App\Menu::find($id)->category->name}}
                                                                 </p>
                                                                 <p>
-                                                                    <span>Color <strong>:</strong></span>{{\App\Menu::find($id)->price}}
+                                                                    <span>Price <strong>:</strong></span>{{\App\Menu::find($id)->price}}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -282,13 +282,17 @@
                                         <div class="col-md-4 col-sm-4 col-xs-12">
                                             <div class="product-item">
                                                 <div class="product-img">
-                                                    <a href="single-product.html">
-                                                        <img src="{{ asset('img/product/7.jpg') }}" alt=""/>
+                                                    <a href="#">
+                                                        @if($menu->image)
+                                                            <img src="{{ asset('storage/' . $menu->image) }}" alt="" class="img-thumbnail">
+                                                        @else
+                                                            <img src="{{ asset('img/product/7.jpg') }}" alt=""/>
+                                                        @endif
                                                     </a>
                                                 </div>
                                                 <div class="product-info">
                                                     <h6 class="product-title">
-                                                        <a href="single-product.html">{{ $menu->name }}</a>
+                                                        <a href="#">{{ $menu->name }}</a>
                                                     </h6>
                                                     <h3 class="pro-price">{{ $menu->price }}</h3>
                                                     <ul class="action-button">
@@ -318,19 +322,23 @@
                                             <div class="col-md-12">
                                                 <div class="shop-list product-item">
                                                     <div class="product-img">
-                                                        <a href="single-product.html">
-                                                            <img src="{{ asset('img/product/7.jpg') }}" alt=""/>
+                                                        <a href="#">
+                                                            @if($menu->image)
+                                                                <img src="{{ asset('storage/' . $menu->image) }}" alt="" class="img-thumbnail">
+                                                            @else
+                                                                <img src="{{ asset('img/product/7.jpg') }}" alt=""/>
+                                                            @endif
                                                         </a>
                                                     </div>
                                                     <div class="product-info">
                                                         <div class="clearfix">
                                                             <h6 class="product-title f-left">
-                                                                <a href="single-product.html">{{ $menu->name }}</a>
+                                                                <a href="#">{{ $menu->name }}</a>
                                                             </h6>
                                                         </div>
                                                         <h6 class="brand-name mb-30">{{ $menu->category->name }}</h6>
                                                         <h3 class="pro-price">{{ $menu->price }}</h3>
-                                                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable.</p>
+                                                        <p>{{ $menu->desc }}</p>
                                                         <ul class="action-button">
                                                             @if(in_array($menu->id, request()->session()->get('cart')??[]))
                                                                 <li>
@@ -399,83 +407,7 @@
     <!-- END FOOTER AREA -->
 
     <!-- START QUICKVIEW PRODUCT -->
-{{--    <div id="quickview-wrapper">--}}
-{{--        <!-- Modal -->--}}
-{{--        <div class="modal fade" id="productModal" tabindex="-1" role="dialog">--}}
-{{--            <div class="modal-dialog" role="document">--}}
-{{--                <div class="modal-content">--}}
-{{--                    <div class="modal-header">--}}
-{{--                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>--}}
-{{--                    </div>--}}
-{{--                    <div class="modal-body">--}}
-{{--                        <div class="modal-product clearfix">--}}
-{{--                            <div class="product-images">--}}
-{{--                                <div class="main-image images">--}}
-{{--                                    <img alt="" src="{{ asset('img/product/quickview.jpg') }}">--}}
-{{--                                </div>--}}
-{{--                            </div><!-- .product-images -->--}}
 
-{{--                            <div class="product-info">--}}
-{{--                                <h1 id="mName">{{$menu ->id}}</h1>--}}
-{{--                                <div class="price-box-3">--}}
-{{--                                    <div class="s-price-box">--}}
-{{--                                        <span class="new-price">£160.00</span>--}}
-{{--                                        <span class="old-price">£190.00</span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <a href="single-product-left-sidebar.html" class="see-all">See all features</a>--}}
-{{--                                <div class="quick-add-to-cart">--}}
-{{--                                    <form method="post" class="cart">--}}
-{{--                                        <div class="numbers-row">--}}
-{{--                                            <input type="number" id="french-hens" value="3">--}}
-{{--                                        </div>--}}
-{{--                                        <button class="single_add_to_cart_button" type="submit">Add to cart</button>--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                                <div class="quick-desc">--}}
-{{--                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero.--}}
-{{--                                </div>--}}
-{{--                                <div class="social-sharing">--}}
-{{--                                    <div class="widget widget_socialsharing_widget">--}}
-{{--                                        <h3 class="widget-title-modal">Share this product</h3>--}}
-{{--                                        <ul class="social-icons clearfix">--}}
-{{--                                            <li>--}}
-{{--                                                <a class="facebook" href="#" target="_blank" title="Facebook">--}}
-{{--                                                    <i class="zmdi zmdi-facebook"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="google-plus" href="#" target="_blank" title="Google +">--}}
-{{--                                                    <i class="zmdi zmdi-google-plus"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="twitter" href="#" target="_blank" title="Twitter">--}}
-{{--                                                    <i class="zmdi zmdi-twitter"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="pinterest" href="#" target="_blank" title="Pinterest">--}}
-{{--                                                    <i class="zmdi zmdi-pinterest"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                            <li>--}}
-{{--                                                <a class="rss" href="#" target="_blank" title="RSS">--}}
-{{--                                                    <i class="zmdi zmdi-rss"></i>--}}
-{{--                                                </a>--}}
-{{--                                            </li>--}}
-{{--                                        </ul>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div><!-- .product-info -->--}}
-{{--                        </div><!-- .modal-product -->--}}
-{{--                    </div><!-- .modal-body -->--}}
-{{--                </div><!-- .modal-content -->--}}
-{{--            </div><!-- .modal-dialog -->--}}
-{{--        </div>--}}
-{{--        <!-- END Modal -->--}}
-{{--    </div>--}}
-    <!-- END QUICKVIEW PRODUCT -->
 </div>
 <!-- Body main wrapper end -->
 

@@ -231,10 +231,10 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="breadcrumbs-inner">
-                            <h1 class="breadcrumbs-title">product grid view</h1>
+                            <h1 class="breadcrumbs-title">product Cart view</h1>
                             <ul class="breadcrumb-list">
                                 <li><a href="index.html">Home</a></li>
-                                <li>product grid view</li>
+                                <li>product Cart view</li>
                             </ul>
                         </div>
                     </div>
@@ -295,7 +295,6 @@
                                                 <!-- tr -->
                                                 @if( session('cart') )
                                                     @for($i = 0; $i< count(session('cart'));$i++)
-                                                        {{ array_keys(session('cart'))[$i] }}
                                                         <input type="hidden" name="id{{array_values(session('cart'))[$i]}}" value="{{ array_values(session('cart'))[$i] }}">
                                                         <tr>
                                                             <td class="product-thumbnail">
@@ -573,8 +572,6 @@
         let alltol = 0;
 
         for (let i =0 ; i< Number($('#countC').html());i++){
-            console.log('call', i);
-            console.log($('.ch'+i+'').html(),$('.ch'+i+''))
             alltol += Number($('.ch'+i+'').html());
         }
         // alert(alltol);

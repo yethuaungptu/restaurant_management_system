@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Menu;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class MenuController extends Controller
 {
@@ -41,6 +42,8 @@ class MenuController extends Controller
     public function store(Request $request)
     {
         $menu = Menu::create($this->validateRequest());
+
+        $this->storeImage($menu);
 
         $menu->save();
 
@@ -81,6 +84,8 @@ class MenuController extends Controller
     {
         $menu->update($this->validateRequest());
 
+        $this->storeImage($menu);
+
         return redirect('menus/')->with('success', 'Menus updated!');
     }
 
@@ -98,7 +103,19 @@ class MenuController extends Controller
             'name' => 'required|min:3',
             'price' => 'required|numeric',
             'count' => 'required|numeric',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'desc' => 'required|min:3',
+            'image' => 'sometimes|file|image|max:5000',
         ]);
+    }
+    private function storeImage($menu)
+    {
+        if (request()->has('image')){
+            $menu->update([
+                'image' => request()->image->store('uploads', 'public')
+            ]);
+        }
+        $image =Image::make(public_path('storage/' . $menu->image))->fit(270,300);
+        $image -> save();
     }
 }

@@ -16,6 +16,14 @@
     </div>
 </div>
 
+<div class="form-group d-flex flex-column">
+    <label for="image">Menu Image</label>
+    <input type="file" name="image"  class="form-control">
+    <div>
+        {{ $errors->first('image') }}
+    </div>
+</div>
+
 
 
 <div class="form-group">
@@ -25,4 +33,12 @@
             <option value="{{ $category->id }}" {{ $category->id == $menu->category_id ? 'selected': '' }}>{{ $category->name }}</option>
         @endforeach
     </select>
+</div>
+
+<div class="form-group">
+    <label for="desc">Description</label>
+    <textarea name="desc" id="desc" cols="30" rows="5" class="form-control">{{old('desc') ?? $menu->desc}}</textarea>
+    <div>
+        {{ $errors->first('desc') }}
+    </div>
 </div>
