@@ -152,7 +152,11 @@
                                                             <div class="single-cart clearfix">
                                                             <div class="cart-img f-left">
                                                                 <a href="#">
-                                                                    <img src="{{ asset('img/cart/1.jpg') }}" alt="Cart Product" />
+                                                                    @if(\App\Menu::find($id)->image))
+                                                                        <img src="{{ asset('storage/' .\App\Menu::find($id)->image) }}" width="100px" height="111px" alt="Cart Product" />
+                                                                    @else
+                                                                        <img src="{{ asset('img/cart/1.jpg') }}" width="100px" height="111px" alt="Cart Product" />
+                                                                    @endif
                                                                 </a>
                                                                 <div class="del-icon">
                                                                     <a href="{{ url('/staff/removeI/'.$i) }}">

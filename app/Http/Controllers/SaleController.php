@@ -54,6 +54,7 @@ class SaleController extends Controller
         return redirect('/home');
     }
 
+
     /**
      * Display the specified resource.
      *

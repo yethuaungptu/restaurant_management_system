@@ -156,7 +156,11 @@
                                                             <div class="single-cart clearfix">
                                                                 <div class="cart-img f-left">
                                                                     <a href="#">
-                                                                        <img src="{{ asset('img/cart/1.jpg') }}" alt="Cart Product" />
+                                                                        @if(\App\Menu::find($id)->image))
+                                                                        <img src="{{ asset('storage/' .\App\Menu::find($id)->image) }}" width="100px" height="111px" alt="Cart Product" />
+                                                                        @else
+                                                                            <img src="{{ asset('img/cart/1.jpg') }}" width="100px" height="111px" alt="Cart Product" />
+                                                                        @endif
                                                                     </a>
                                                                 </div>
                                                                 <div class="cart-info f-left">
@@ -299,7 +303,11 @@
                                                         <tr>
                                                             <td class="product-thumbnail">
                                                                 <div class="pro-thumbnail-img">
-                                                                    <img src="{{ asset('img/cart/1.jpg') }}" alt="">
+                                                                    @if(\App\Menu::find(array_values(session('cart'))[$i])->image))
+                                                                        <img src="{{ asset('storage/' .\App\Menu::find(array_values(session('cart'))[$i])->image) }}" alt="">
+                                                                    @else
+                                                                        <img src="{{ asset('img/cart/1.jpg') }}" alt="">
+                                                                    @endif
                                                                 </div>
                                                                 <div class="pro-thumbnail-info text-left">
                                                                     <h6 class="product-title-2">
