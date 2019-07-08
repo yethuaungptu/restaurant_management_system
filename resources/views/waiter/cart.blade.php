@@ -296,7 +296,7 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <!-- tr -->
+                                                <!-- tr -->php
                                                 @if( session('cart') )
                                                     @for($i = 0; $i< count(session('cart'));$i++)
                                                         <input type="hidden" name="id{{array_values(session('cart'))[$i]}}" value="{{ array_values(session('cart'))[$i] }}">
@@ -394,7 +394,11 @@
                                                 <tr>
                                                     <td class="product-thumbnail">
                                                         <div class="pro-thumbnail-img">
-                                                            <img src="{{ asset('img/product/7.jpg') }}" alt="">
+                                                            @if(\App\Menu::find($id)->image)
+                                                                <img src="{{ asset('storage/' .\App\Menu::find($id)->image) }}" width="100px" height="111px" alt="Cart Product" />
+                                                            @else
+                                                            <img src="{{ asset('img/cart/7.jpg') }}" alt="">
+                                                            @endif
                                                         </div>
                                                         <div class="pro-thumbnail-info text-left">
                                                             <h6 class="product-title-2">
