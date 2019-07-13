@@ -81,7 +81,7 @@ class WaiterController extends Controller
     }
 
     public function checkout(Request $request){
-            for ($i = 0; $i < count($request->session()->get('cart')); $i++){
+        foreach ($request->session()->get('cart') as $i=>$id){
                 Menu::where('id',$request->session()->get('cart')[$i])->increment('count',(int)$request->session()->get('order')['count'.$request->session()->get('cart')[$i].'']);
             }
 
@@ -92,6 +92,7 @@ class WaiterController extends Controller
         $order->save();
         $request->session()->push('complete', $order);
         return back();
+        dd($request->session()->get('cart'));
     }
 
     public function done(Request $request){
