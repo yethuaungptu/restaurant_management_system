@@ -38,11 +38,36 @@
                             <a href="{{ route('menus.edit',$menu->id)}}" class="btn btn-primary">Edit</a>
                         </td>
                         <td>
-                            <form action="{{ route('menus.destroy', $menu->id)}}" method="post">
+                            <form action="{{ route('menus.destroy', $menu->id)}}" method="post" name="frm">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger" type="submit">Delete</button>
+                                <button class="btn btn-danger" type="button" onclick="ch(this.form);">Delete</button>
                             </form>
+                            <script>
+                                function ch(f){
+                                    swal({
+                                            title: "Are you sure?",
+                                            text: "You will not be able to recover this imaginary menu!",
+                                            type: "warning",
+                                            showCancelButton: true,
+                                            confirmButtonColor: "#DD6B55",
+                                            confirmButtonText: "Yes, delete it!",
+                                            cancelButtonText: "No, cancel plx!",
+                                            closeOnConfirm: false,
+                                            closeOnCancel: false,
+                                            confirmButtonColor: "#63A8EB"
+                                        },
+                                        function (isConfirm) {
+                                            if (isConfirm) {
+                                                swal("Deleted!", "Your imaginary menu has been deleted.", "success");
+                                                f.submit();
+                                            } else {
+                                                swal("Cancelled", "Your imaginary menu is safe :)", "error");
+                                            }
+                                        });
+
+                                }
+                            </script>
                         </td>
                     </tr>
                 @endforeach

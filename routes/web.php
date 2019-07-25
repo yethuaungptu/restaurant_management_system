@@ -26,6 +26,8 @@ Route::get('/staff/cart', 'WaiterController@cartview');
 Route::get('/staff/order', 'WaiterController@order');
 Route::post('/staff/checkout', 'WaiterController@checkout');
 Route::get('/staff/done', 'WaiterController@done');
+Route::get('/search','WaiterController@search');
+Route::get('/catSearch/{id}','WaiterController@catSearch');
 
 Auth::routes();
 
@@ -40,7 +42,3 @@ Route::resource('category','CategoryController')->middleware('auth');
 Route::get('/daily', 'HomeController@daily')->middleware('auth');
 Route::get('/monthly', 'HomeController@monthly')->middleware('auth');
 Route::get('/yearly', 'HomeController@yearly')->middleware('auth');
-//Route::post('/category/store', 'CategoryController@store')->name('store');
-//Route::get('/category/edit', 'CategoryController@edit')->name('edit');
-//Route::post('/category/update', 'CategoryController@update')->name('update');
-//Route::post('/category/destroy', 'CategoryController@destroy')->name('destroy');

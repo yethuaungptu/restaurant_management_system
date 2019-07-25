@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{ asset('bower_components/metisMenu/dist/metisMenu.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/Waves/dist/waves.min.css') }}">
     <link rel="stylesheet" href="{{ asset('bower_components/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}">
+    <link rel="stylesheet" href="{{ asset('bower_components/sweetalert/dist/sweetalert.css') }}">
+
+
 
     <link rel="stylesheet" href="{{ asset('js/selects/cs-select.css') }}">
     <link rel="stylesheet" href="{{ asset('js/selects/cs-skin-elastic.css') }}">
@@ -29,9 +32,12 @@
 
     <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-    <!--[if lt IE 9]>
+    <!--[if lt IE 9]-->
+    <script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+
     <script src="{{ asset('bower_components/html5shiv/dist/html5shiv.min.js') }}"></script>
     <script src="{{ asset('bower_components/respondJs/dest/respond.min.js') }}"></script>
+
     <![endif]-->
 </head>
 <body>
@@ -58,7 +64,7 @@
 
 
 </div>
-<script src="{{ asset('bower_components/jquery/dist/jquery.min.js') }}"></script>
+
 <script src="{{ asset('bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('bower_components/metisMenu/dist/metisMenu.min.js') }}"></script>
 <script src="{{ asset('bower_components/Waves/dist/waves.min.js') }}"></script>
@@ -102,6 +108,8 @@
 
 <!--Notification-->
 <script src="{{ asset('js/notifications/notificationFx.js') }}"></script>
+<script src="{{ asset('bower_components/sweetalert/dist/sweetalert.min.js') }}"></script>
+
 
 <!--Custom Scripts-->
 <script src="{{ asset('js/common.js') }}"></script>

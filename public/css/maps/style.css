@@ -4338,7 +4338,7 @@ body .ns-effect-loadingcircle {
   position: absolute;
   top: 5px;
   right: 10px;
-  cursor: pointer;
+  /*cursor: pointer;*/
 }
 
 .ultra-widget .w-refresh.w-p-icon {

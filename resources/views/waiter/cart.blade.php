@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Subash || Shop</title>
+    <title>Food House</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -34,6 +34,12 @@
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/print.min.js') }}"></script>
+
+    <style>
+        .breadcrumbs1 {
+            background: #f6f6f6 url("{{ asset('img/breadcrumb/2.png') }}") no-repeat scroll center center / cover ;
+        }
+    </style>
 
 </head>
 
@@ -230,14 +236,14 @@
 
     <!-- BREADCRUMBS SETCTION START -->
     <div class="breadcrumbs-section plr-200 mb-80">
-        <div class="breadcrumbs overlay-bg">
+        <div class="breadcrumbs1 overlay-bg">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="breadcrumbs-inner">
                             <h1 class="breadcrumbs-title">product Cart view</h1>
                             <ul class="breadcrumb-list">
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="{{ url('staff/home') }}">Home</a></li>
                                 <li>product Cart view</li>
                             </ul>
                         </div>
@@ -296,14 +302,14 @@
                                                 </tr>
                                                 </thead>
                                                 <tbody>
-                                                <!-- tr -->php
+                                                <!-- tr -->
                                                 @if( session('cart') )
                                                     @for($i = 0; $i< count(session('cart'));$i++)
                                                         <input type="hidden" name="id{{array_values(session('cart'))[$i]}}" value="{{ array_values(session('cart'))[$i] }}">
                                                         <tr>
                                                             <td class="product-thumbnail">
                                                                 <div class="pro-thumbnail-img">
-                                                                    @if(\App\Menu::find(array_values(session('cart'))[$i])->image))
+                                                                    @if(\App\Menu::find(array_values(session('cart'))[$i])->image)
                                                                         <img src="{{ asset('storage/' .\App\Menu::find(array_values(session('cart'))[$i])->image) }}" alt="">
                                                                     @else
                                                                         <img src="{{ asset('img/cart/1.jpg') }}" alt="">

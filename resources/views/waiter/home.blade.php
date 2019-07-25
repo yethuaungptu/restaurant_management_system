@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Subash || Shop</title>
+    <title>Food House</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -31,6 +31,11 @@
 
     <!-- Modernizr JS -->
     <script src="{{ asset('js/vendor/modernizr-2.8.3.min.js') }}"></script>
+    <style>
+        .breadcrumbs1 {
+            background: #f6f6f6 url("{{ asset('img/breadcrumb/1.png') }}") no-repeat scroll center center / cover ;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,7 +54,7 @@
                 <div class="row">
                     <div class="col-sm-6 hidden-xs">
                         <div class="call-us">
-                            <p class="mb-0 roboto">(+95) 01234-567890</p>
+                            <p class="mb-0 roboto">(+95) 09796266681</p>
                         </div>
                     </div>
                     <div class="col-sm-6 col-xs-12">
@@ -109,9 +114,9 @@
                                         <button class="search-toggle">
                                             <i class="zmdi zmdi-search"></i>
                                         </button>
-                                        <form action="#">
+                                        <form action="{{ url('search') }}">
                                             <div class="top-search-box">
-                                                <input type="text" placeholder="Search here your product...">
+                                                <input type="text" name="key" placeholder="Search here your product...">
                                                 <button type="submit">
                                                     <i class="zmdi zmdi-search"></i>
                                                 </button>
@@ -222,14 +227,14 @@
 
     <!-- BREADCRUMBS SETCTION START -->
     <div class="breadcrumbs-section plr-200 mb-80">
-        <div class="breadcrumbs overlay-bg">
+        <div class="breadcrumbs1 overlay-bg">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="breadcrumbs-inner">
                             <h1 class="breadcrumbs-title">product grid view</h1>
                             <ul class="breadcrumb-list">
-                                <li><a href="index.html">Home</a></li>
+                                <li><a href="{{ url('staff/home') }}">Home</a></li>
                                 <li>product grid view</li>
                             </ul>
                         </div>
@@ -261,18 +266,10 @@
                                     </li>
                                 </ul>
                                 <!-- short-by -->
-                                <div class="short-by f-left text-center">
-                                    <span>Sort by :</span>
-                                    <select>
-                                        <option value="volvo">Newest items</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
-                                    </select>
-                                </div>
+
                                 <!-- showing -->
                                 <div class="showing f-right text-right">
-                                    <span>Showing : 01-09 of 17.</span>
+                                    <span>Showing : {{ $menus->firstItem() }}-{{ $menus->lastItem() }} of {{ $menus->total() }}.</span>
                                 </div>
                             </div>
                             <!-- shop-option end -->
@@ -374,19 +371,19 @@
                     </div>
                     <div class="col-md-3 col-md-pull-9 col-sm-12">
                         <!-- widget-search -->
-                        <aside class="widget-search mb-30">
-                            <form action="#">
-                                <input type="text" placeholder="Search here...">
-                                <button type="submit"><i class="zmdi zmdi-search"></i></button>
-                            </form>
-                        </aside>
+{{--                        <aside class="widget-search mb-30">--}}
+{{--                            <form action="#">--}}
+{{--                                <input type="text" placeholder="Search here...">--}}
+{{--                                <button type="submit"><i class="zmdi zmdi-search"></i></button>--}}
+{{--                            </form>--}}
+{{--                        </aside>--}}
                         <!-- widget-categories -->
                         <aside class="widget widget-categories box-shadow mb-30">
                             <h6 class="widget-title border-left mb-20">Categories</h6>
                             <div id="cat-treeview" class="product-cat">
                                 <ul>
                                     @foreach($categories as $category)
-                                         <li class="closed"><a href="#">{{ $category->name }}</a>  </li>
+                                         <li class="closed"><a href="{{ url('/catSearch/'.$category->id) }}">{{ $category->name }}</a>  </li>
                                     @endforeach
                                 </ul>
                             </div>

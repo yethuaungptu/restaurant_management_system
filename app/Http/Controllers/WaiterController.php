@@ -38,7 +38,7 @@ class WaiterController extends Controller
     public function home(Request $request){
         $user = $request->session()->get('staff_key');
         if ($user){
-            $menus = Menu::paginate(10);
+            $menus = Menu::paginate(12);
             $categories = Category::all();
             if(session('order')){
                 return redirect('staff/cart');
@@ -104,6 +104,30 @@ class WaiterController extends Controller
         }else{
             return redirect('staff/cart');
         }
+    }
+
+    public function search(Request $request){
+
+        $user = $request->session()->get('staff_key');
+        $q = $request->key;
+        $menus = Menu::where('name', 'LIKE', '%'. $q . '%')->orWhere('category_id->name', 'LIKE', '%'. $q . '%')->paginate(12);
+
+        $categories = Category::all();
+        if(session('order')){
+            return redirect('staff/cart');
+        }
+        return view('waiter.home',compact('user','menus','categories'));
+    }
+
+
+    public function catSearch($id, Request $request){
+        $user = $request->session()->get('staff_key');
+        $menus = Menu::where('category_id',$id)->paginate(12);
+        $categories = Category::where('id', $id)->get();
+        if(session('order')){
+            return redirect('staff/cart');
+        }
+        return view('waiter.home',compact('user','menus','categories'));
     }
 
 
