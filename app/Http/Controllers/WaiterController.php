@@ -110,7 +110,7 @@ class WaiterController extends Controller
 
         $user = $request->session()->get('staff_key');
         $q = $request->key;
-        $menus = Menu::where('name', 'LIKE', '%'. $q . '%')->orWhere('category_id->name', 'LIKE', '%'. $q . '%')->paginate(12);
+        $menus = Menu::where('name', 'LIKE', '%'. $q . '%')->paginate(100);
 
         $categories = Category::all();
         if(session('order')){
