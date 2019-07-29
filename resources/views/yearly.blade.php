@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="content-box big-box box-shadow">
-                <h4><strong>Daily Sale And Profit</strong></h4>
+                <h4><strong>Yearly Sale And Profit</strong></h4>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>

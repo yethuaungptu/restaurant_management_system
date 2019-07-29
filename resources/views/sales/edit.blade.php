@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="content-box big-box box-shadow">
-                <h4><strong>Category Add</strong></h4>
+                <h4><strong>Sale Management Daily</strong></h4>
                 <form class="content-form " method="post" action="{{ route('sales.update', ['sale' => $sale]) }}">
                     @method('PATCH')
                     @csrf

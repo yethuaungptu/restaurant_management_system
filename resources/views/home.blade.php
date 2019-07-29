@@ -241,6 +241,3 @@
     <div id="welcome"></div>
 @endsection
 
-
-
-
