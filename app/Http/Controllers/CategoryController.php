@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Menu;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -71,6 +72,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
+        Menu::where('category_id',$category->id)->delete();
         return back();
     }
     private function validateRequest()

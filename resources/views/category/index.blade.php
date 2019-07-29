@@ -45,8 +45,33 @@
                                     <form action="{{ route('category.destroy', $category->id)}}" method="post">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger" type="submit">Delete</button>
+                                        <button class="btn btn-danger" type="button" onclick="ch(this.form, {{ \App\Menu::where('category_id',$category->id)->count() }})">Delete</button>
                                     </form>
+                                    <script>
+                                        function ch(f,id){
+                                            swal({
+                                                    title: "Are you sure?",
+                                                    text: (id > 0)? "This category use in "+ id +" menus. You will not be able to recover this imaginary category!" : "You will not be able to recover this imaginary category!",
+                                                    type: "warning",
+                                                    showCancelButton: true,
+                                                    confirmButtonColor: "#DD6B55",
+                                                    confirmButtonText: "Yes, delete it!",
+                                                    cancelButtonText: "No, cancel plx!",
+                                                    closeOnConfirm: false,
+                                                    closeOnCancel: false,
+                                                    confirmButtonColor: "#63A8EB"
+                                                },
+                                                function (isConfirm) {
+                                                    if (isConfirm) {
+                                                        swal("Deleted!", "Your imaginary menu has been deleted.", "success");
+                                                        f.submit();
+                                                    } else {
+                                                        swal("Cancelled", "Your imaginary menu is safe :)", "error");
+                                                    }
+                                                });
+
+                                        }
+                                    </script>
                                 </td>
                             </tr>
                         @endforeach
