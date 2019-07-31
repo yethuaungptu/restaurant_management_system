@@ -29,11 +29,13 @@ class HomeController extends Controller
     public function index()
     {
         $data =[];
+        $dtime = [];
         $menuC = Menu::orderBy('count','desc')->limit(10)->get();
         for ($i = 0; $i < 10; $i++){
             array_push($data,Order::whereDate('created_at', Carbon::now()->subDay($i))->get()->sum('total'));
+            array_push($dtime,Order::whereDate('created_at', Carbon::now()->subDay($i))->first('created_at'));
         }
-        return view('home',compact('data','menuC'));
+        return view('home',compact('data','menuC','dtime'));
     }
 
     public function daily(){

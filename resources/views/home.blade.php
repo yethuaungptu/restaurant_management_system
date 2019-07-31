@@ -207,20 +207,22 @@
                         </div>
                         <div class="chart-legend left">
                             <div class="pull-left item">
-                                <span id="new-visitor" class="text-lowercase block">Top sale per 10days</span><span class="position-title blue" >{{ max($data) }} Ks</span>
+                                <span id="new-visitor" class="text-lowercase block">Top sale per 10days</span><span class="position-title blue" id="topsa">{{ max($data) }} Ks</span>
                                 <input type="hidden" id="data1" value="">
                             </div>
-                            <span id="new-orders" class="text-lowercase block">Top Order count per 10menus</span><span class="position-title red">{{ \App\Menu::max('count') }}</span>
+                            <span id="new-orders" class="text-lowercase block">Top Order count per 10menus</span><span class="position-title red" id="topOC">{{ \App\Menu::max('count') }}</span>
                         </div>
                     </div>
                     <div class="clearfix"></div>
                     @for($i=0; $i< 10; $i++)
                         <input type="hidden" id="data{{$i+2}}" value="{{ $data[$i] }}">
+                        <input type="hidden" id="ti{{$i}}" value="{{ $dtime[$i]['created_at'] }}">
                     @endfor
                     <input type="hidden" id="topO" value="{{ max($data) }}">
                     @for($j=0; $j<10; $j++)
                         @if($j<count($menuC))
                             <input type="hidden" id="men{{ $j+2 }}" value="{{ ($menuC[$j])? $menuC[$j]['count']: 0 }}">
+                            <input type="hidden" id="mename{{ $j }}" value="{{ $menuC[$j]['name'] }}">
                         @else
                             <input type="hidden" id="men{{ $j+2 }}" value="0">
                         @endif

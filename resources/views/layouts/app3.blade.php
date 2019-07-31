@@ -223,6 +223,8 @@
             });
         }
 
+        var months = ["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"];
+
         //Tooltips for Flot Charts
         if ($(".flot-chart")[0]) {
             $(".flot-chart").bind("plothover", function (event, pos, item) {
@@ -230,11 +232,18 @@
                     var x = item.datapoint[0].toFixed(2),
                         y = item.datapoint[1].toFixed(2);
 
-                    $(".flot-tooltip").html(x + " of " + y)
-                        .css({top: item.pageY+5, left: item.pageX+5})
-                        .fadeIn(200);
+                    if (item.seriesIndex == 1){
+                        $(".flot-tooltip").html((y/100)*Number($('#topOC').html())+" , "+$('#mename'+item.dataIndex).val())
+                            .css({top: item.pageY+5, left: item.pageX+5, width:150})
+                            .fadeIn(200);
+                    }else if(item.seriesIndex == 0) {
+                        $(".flot-tooltip").html((y/100)*Number($('#topO').val())+" , "+new Date($('#ti'+item.dataIndex).val()).getDate()+"-"+ months[new Date($('#ti'+item.dataIndex).val()).getMonth()])
+                            .css({top: item.pageY+5, left: item.pageX+5, width:150})
+                            .fadeIn(200);
+                    }
+
                 } else {
-                    $(".flot-tooltip").hide();
+                    $(".flot-tooltip").hide()
                 }
             });
 
