@@ -230,14 +230,14 @@
             $(".flot-chart").bind("plothover", function (event, pos, item) {
                 if (item) {
                     var x = item.datapoint[0].toFixed(2),
-                        y = item.datapoint[1].toFixed(2);
+                        y = item.datapoint[1];
 
                     if (item.seriesIndex == 1){
                         $(".flot-tooltip").html((y/100)*Number($('#topOC').html())+" , "+$('#mename'+item.dataIndex).val())
                             .css({top: item.pageY+5, left: item.pageX+5, width:150})
                             .fadeIn(200);
                     }else if(item.seriesIndex == 0) {
-                        $(".flot-tooltip").html((y/100)*Number($('#topO').val())+" , "+new Date($('#ti'+item.dataIndex).val()).getDate()+"-"+ months[new Date($('#ti'+item.dataIndex).val()).getMonth()])
+                        $(".flot-tooltip").html(Math.round((y/100)*Number($('#topO').val()))+" , "+new Date($('#ti'+item.dataIndex).val()).getDate()+"-"+ months[new Date($('#ti'+item.dataIndex).val()).getMonth()])
                             .css({top: item.pageY+5, left: item.pageX+5, width:150})
                             .fadeIn(200);
                     }
